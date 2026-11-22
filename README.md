@@ -1,2 +1,3 @@
 # Hisabbuddy-
-Saving ka solution in this apk
+app install in your Android device 
+Saving ka solution in this 
