@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#145c4b"><meta name="description" content="HisabBuddy - income, expenses and udhaar tracker">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>HisabBuddy</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><div><h1>📒 HisabBuddy</h1><p>आपका रोज़ का हिसाब • Your daily accounts</p></div><span id="syncState">Offline data</span></header>
+<main>
+<nav class="tabs">
+<button class="active" data-page="home">होम</button><button data-page="add">एंट्री जोड़ें</button><button data-page="udhaar">उधार</button><button data-page="reports">रिपोर्ट</button><button data-page="account">लॉगिन / सेटिंग</button>
+</nav>
+<section id="home" class="page active">
+<div class="cards">
+<article><small>आमदनी / Income</small><strong id="incomeTotal">₹0</strong></article>
+<article><small>खर्च / Expenses</small><strong id="expenseTotal">₹0</strong></article>
+<article><small>बैलेंस / Balance</small><strong id="balanceTotal">₹0</strong></article>
+<article><small>नेट उधार / Net Udhaar</small><strong id="debtTotal">₹0</strong></article>
+</div>
+<article class="panel"><h2>हाल की एंट्री</h2><div id="recent"></div></article>
+</section>
+<section id="add" class="page"><article class="panel">
+<h2>नई एंट्री / Add entry</h2>
+<label>प्रकार / Type<select id="type"><option value="income">आमदनी / Income</option><option value="expense">खर्च / Expense</option><option value="lent">उधार दिया / Lent</option><option value="borrowed">उधार लिया / Borrowed</option></select></label>
+<label>विवरण / Title<input id="title" placeholder="जैसे दुकान की बिक्री"></label>
+<div class="two"><label>रकम ₹<input id="amount" type="number" min="0.01" step="0.01" inputmode="decimal"></label><label>तारीख / Date<input id="date" type="date"></label></div>
+<label>नाम / नोट (optional)<input id="note" placeholder="किससे या किसलिए"></label>
+<button class="primary" id="saveEntry">सेव करें / Save</button>
+</article></section>
+<section id="udhaar" class="page"><article class="panel"><h2>उधार का हिसाब</h2><p class="hint">यह केवल रिकॉर्ड है, पैसे ट्रांसफर नहीं करता।</p><div id="debtList"></div></article></section>
+<section id="reports" class="page"><article class="panel">
+<h2>मासिक रिपोर्ट / Monthly report</h2><label>महीना चुनें<input id="month" type="month"></label>
+<div class="cards"><article><small>आमदनी</small><strong id="monthIncome">₹0</strong></article><article><small>खर्च</small><strong id="monthExpense">₹0</strong></article><article><small>बैलेंस</small><strong id="monthBalance">₹0</strong></article><article><small>एंट्री</small><strong id="monthCount">0</strong></article></div>
+<div id="monthRows"></div><div class="two"><button class="secondary" id="csvBtn">CSV डाउनलोड</button><button class="secondary" id="printBtn">PDF / Print</button></div>
+</article></section>
+<section id="account" class="page">
+<article class="panel"><h2>अकाउंट और Cloud Sync</h2>
+<p class="hint">पहले Firebase project बनाकर <code>firebase-config.js</code> में अपनी Web App config डालें। उसके बिना login और cloud sync चालू नहीं होंगे।</p>
+<label>फोन नंबर (country code सहित)<input id="phone" type="tel" placeholder="+91XXXXXXXXXX"></label>
+<div id="recaptcha-container"></div><button class="secondary" id="sendOtp">OTP भेजें</button>
+<label>OTP<input id="otp" inputmode="numeric" autocomplete="one-time-code" placeholder="SMS OTP"></label><button class="primary" id="verifyOtp">OTP verify / Login</button>
+<hr><button class="secondary" id="googleLogin">Google से Login</button>
+<p id="authMessage" class="hint">अभी Guest / Offline mode</p>
+<div class="two"><button class="secondary" id="syncNow">अभी Cloud Sync करें</button><button class="secondary" id="logout">Logout</button></div>
+</article>
+<article class="panel"><h2>रिपोर्ट रिमाइंडर</h2><label>हर महीने रिपोर्ट की तारीख (1–28)<input id="reportDay" type="number" min="1" max="28" value="1"></label><button class="primary" id="saveSettings">सेटिंग सेव करें</button></article>
+<article class="panel"><h2>Backup / Restore</h2><div class="two"><button class="secondary" id="backupBtn">Backup JSON</button><button class="secondary" id="restoreBtn">Restore JSON</button><input id="restoreFile" type="file" accept="application/json" hidden></div></article>
+<article class="panel"><h2>Data controls</h2><button class="danger" id="deleteAll">सारा डेटा मिटाएं</button></article>
+</section>
+<p class="notice">टेस्ट वर्जन: अपनी असली संवेदनशील वित्तीय जानकारी डालने से पहले बैकअप रखें। Cloud Sync तभी काम करेगा जब Firebase सही तरह configure और rules deploy हों।</p>
+</main>
+<footer>HisabBuddy PWA Test • Mobile-first</footer>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script><script src="app.js"></script>
+</body></html>
